@@ -13,4 +13,21 @@
 		spaces = photos.ParkingSpaces;
 	});
 </script>
-<p>{name}: {freeSpaces} ({spaces})</p>
+<style>
+.l-box {
+	text-align: center;
+}
+.pname {
+	font-size: 20pt;
+	margin-top: 20px;
+}
+.pfree {
+	font-size: 56pt;
+}
+
+</style>
+
+<div class="pure-u-1-2 pure-u-md-1-3 l-box">
+	<div class="l-box pname">{name}</div>
+	<div class="l-box pfree">{freeSpaces}</div>
+</div>
