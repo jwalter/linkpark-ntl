@@ -6,11 +6,10 @@
     let spaces = "";
     onMount(async () => {
 		const res = await fetch(`/api/Parkeringsdata/ParkeringsdataV1.svc/GetParkeringsytaById/a543a460665e4b64889759dbf83515a7/${parkingId}`);
-		let photos = await res.json();
-		console.log("P " + photos);
-		freeSpaces = photos.ParkingSpacesAvailable;
-		name = photos.Name;
-		spaces = photos.ParkingSpaces;
+		let parkingGarage = await res.json();
+		freeSpaces = parkingGarage.ParkingSpacesAvailable;
+		name = parkingGarage.Name;
+		spaces = parkingGarage.ParkingSpaces;
 	});
 </script>
 <style>
