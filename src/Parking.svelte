@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     export let parkingId;
     let freeSpaces = "";
@@ -28,5 +28,5 @@
 
 <div class="pure-u-1-2 pure-u-md-1-3 l-box">
 	<div class="l-box pname">{name}</div>
-	<div class="l-box pfree">{freeSpaces}</div>
+	<div class="l-box pfree">{freeSpaces ? freeSpaces : "0?"}</div>
 </div>
