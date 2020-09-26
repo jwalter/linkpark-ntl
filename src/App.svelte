@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Parking from './Parking.svelte'
 </script>
 
