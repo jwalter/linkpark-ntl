@@ -4,6 +4,7 @@
 
 <main>
   <div class="grid grid-cols-2 md:grid-cols-3">
+    <Parking parkingId="798_1" />
     <Parking parkingId="51_1" />
     <Parking parkingId="29_1" />
     <Parking parkingId="31_1" />
