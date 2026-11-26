@@ -19,12 +19,11 @@ export default {
 	plugins: [
 		svelte({
 			preprocess: autoPreprocess(),
-			// enable run-time checks when not in production
-			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file - better for performance
-			css: css => {
-				css.write('public/build/bundle.css');
+			// component CSS (if any) is injected by the JS bundle
+			emitCss: false,
+			compilerOptions: {
+				// enable run-time checks when not in production
+				dev: !production
 			}
 		}),
 		typescript({ sourceMap: !production }),

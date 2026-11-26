@@ -1,1 +1,1 @@
-/api/*  http://parkering.linkoping.se/:splat  200
+/api/*  https://api.dukaten.parkknowit.com/api/:splat  200
