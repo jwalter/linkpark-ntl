@@ -1,1 +1,22 @@
+@import "@fontsource-variable/overpass/wght.css";
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Overpass Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Colors taken from Swedish parking guidance signs */
+  --color-skylt: #0f4c92;
+  --color-skylt-djup: #0a3a73;
+  --color-led: #ffc531;
+  --color-signal: #ff7a66;
+  --color-betong: #e7e9ec;
+  --color-natt: #0b1b30;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
