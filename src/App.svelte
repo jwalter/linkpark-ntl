@@ -26,6 +26,14 @@
   let loading = $state(false);
   let failed = $state(false);
 
+  // ?info shows the screen measurements, for tuning the layout in the car
+  const showInfo = new URLSearchParams(location.search).has("info");
+  let screenInfo = $state("");
+  function measure() {
+    const fit = document.documentElement.classList.contains("fit");
+    screenInfo = `${innerWidth}×${innerHeight} CSS-px, DPR ${devicePixelRatio}, helskärm ${fit ? "på" : "av"}, ${navigator.userAgent}`;
+  }
+
   async function load() {
     loading = true;
     try {
@@ -55,9 +63,14 @@
       }
     };
     document.addEventListener("visibilitychange", onVisible);
+    if (showInfo) {
+      measure();
+      addEventListener("resize", measure);
+    }
     return () => {
       clearInterval(timer);
       document.removeEventListener("visibilitychange", onVisible);
+      removeEventListener("resize", measure);
     };
   });
 
@@ -65,13 +78,22 @@
     d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" });
 </script>
 
-<main class="mx-auto max-w-xl px-4 pt-8 pb-12 sm:pt-16">
-  <header class="mb-5 flex items-end justify-between gap-4 px-1">
-    <div>
-      <h1 class="text-3xl/tight font-extrabold tracking-tight text-skylt dark:text-white">
+<main
+  class="mx-auto max-w-xl px-4 pt-8 pb-12 sm:pt-16 fit:flex fit:h-full fit:max-w-none fit:flex-col fit:p-[calc(var(--u)*2.5)]"
+>
+  <header
+    class="mb-5 flex items-end justify-between gap-4 px-1 fit:mb-[calc(var(--u)*2)] fit:items-center fit:px-[calc(var(--u)*0.5)]"
+  >
+    <div class="fit:flex fit:items-baseline fit:gap-[calc(var(--u)*2.5)]">
+      <h1
+        class="text-3xl/tight font-extrabold tracking-tight text-skylt dark:text-white fit:text-[calc(var(--u)*5)]/none"
+      >
         Lediga platser
       </h1>
-      <p class="mt-1 text-sm text-slate-600 dark:text-slate-400" aria-live="polite">
+      <p
+        class="mt-1 text-sm text-slate-600 dark:text-slate-400 fit:mt-0 fit:text-[calc(var(--u)*2.4)]"
+        aria-live="polite"
+      >
         {#if failed && updatedAt}
           Kunde inte hämta nya siffror. Visar läget från {time(updatedAt)}.
         {:else if failed}
@@ -87,7 +109,7 @@
       type="button"
       onclick={load}
       disabled={loading}
-      class="shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold text-skylt ring-1 ring-skylt/30 hover:bg-skylt/5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-led disabled:opacity-50 dark:text-white dark:ring-white/30 dark:hover:bg-white/10"
+      class="shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold text-skylt ring-1 ring-skylt/30 hover:bg-skylt/5 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-led disabled:opacity-50 dark:text-white dark:ring-white/30 dark:hover:bg-white/10 fit:px-[calc(var(--u)*2.5)] fit:py-[calc(var(--u)*1.2)] fit:text-[calc(var(--u)*2.4)]"
     >
       {loading ? "Hämtar…" : failed ? "Försök igen" : "Uppdatera"}
     </button>
@@ -95,20 +117,24 @@
 
   <section
     aria-label="Lediga platser per parkeringshus"
-    class="overflow-hidden rounded-2xl bg-skylt text-white shadow-[0_0_0_4px_var(--color-betong),0_0_0_6px_var(--color-skylt)] dark:shadow-[0_0_0_4px_var(--color-natt),0_0_0_6px_rgb(255_255_255/0.25)]"
+    class="overflow-hidden rounded-2xl bg-skylt text-white shadow-[0_0_0_4px_var(--color-betong),0_0_0_6px_var(--color-skylt)] dark:shadow-[0_0_0_4px_var(--color-natt),0_0_0_6px_rgb(255_255_255/0.25)] fit:mx-[6px] fit:mb-[6px] fit:flex fit:min-h-0 fit:flex-1 fit:flex-col fit:rounded-[calc(var(--u)*2)]"
   >
-    <div class="flex items-center gap-3 border-b border-white/15 px-5 py-3">
+    <div
+      class="flex items-center gap-3 border-b border-white/15 px-5 py-3 fit:gap-[calc(var(--u)*1.5)] fit:px-[calc(var(--u)*2.5)] fit:py-[calc(var(--u)*1.3)]"
+    >
       <span
         aria-hidden="true"
-        class="grid size-8 place-items-center rounded-md bg-white text-xl leading-none font-black text-skylt"
+        class="grid size-8 place-items-center rounded-md bg-white text-xl leading-none font-black text-skylt fit:size-[calc(var(--u)*4.5)] fit:rounded-[calc(var(--u)*0.8)] fit:text-[calc(var(--u)*3)]"
         ><span class="translate-y-px">P</span></span
       >
-      <span class="text-base font-semibold">Parkeringshus</span>
+      <span class="text-base font-semibold fit:text-[calc(var(--u)*2.6)]">Parkeringshus</span>
     </div>
 
-    <ul class="divide-y divide-white/10">
+    <ul
+      class="divide-y divide-white/10 fit:grid fit:flex-1 fit:grid-cols-3 fit:grid-rows-2 fit:gap-px fit:divide-y-0 fit:bg-white/10 fit:portrait:grid-cols-2 fit:portrait:grid-rows-3"
+    >
       {#each garages as garage (garage.id)}
-        <li>
+        <li class="fit:relative fit:min-h-0 fit:bg-skylt">
           <GarageRow
             name={garage.name}
             available={parkings[garage.id]?.vehicleSpaces?.available}
@@ -119,4 +145,10 @@
       {/each}
     </ul>
   </section>
+
+  {#if showInfo}
+    <p class="mt-4 px-1 text-xs break-all text-slate-600 dark:text-slate-400 fit:mt-[calc(var(--u)*1)] fit:text-[calc(var(--u)*1.6)]">
+      {screenInfo}
+    </p>
+  {/if}
 </main>
