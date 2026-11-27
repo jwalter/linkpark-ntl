@@ -1,34 +1,25 @@
 {
   "name": "linkpark-ntl",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "watch:tailwind": "postcss public/tailwind.css -o public/index.css -w",
-    "build:tailwind": "cross-env NODE_ENV=production postcss public/tailwind.css -o public/index.css",
-    "build": "npm run build:tailwind && rollup -c",
-    "dev": "concurrently \"rollup -c -w\" \"npm run watch:tailwind\"",
-    "start": "sirv public"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "engines": {
+    "node": ">=22.12"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^12.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-typescript": "^6.0.0",
-    "@tsconfig/svelte": "^1.0.10",
-    "autoprefixer": "^10.0.1",
-    "concurrently": "^5.3.0",
-    "cross-env": "^7.0.2",
-    "postcss": "^8.2.13",
-    "postcss-cli": "^8.0.0",
-    "rollup": "^2.3.4",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-svelte": "^7.2.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "svelte": "^3.49",
-    "svelte-check": "^1.0.51",
-    "svelte-preprocess": "^4.10.7",
-    "tailwindcss": "^1.8.10",
-    "typescript": "^4.0.3"
-  },
-  "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "@sveltejs/vite-plugin-svelte": "^7.3.2",
+    "@tailwindcss/vite": "^4.3.5",
+    "@tsconfig/svelte": "^5.0.9",
+    "svelte": "^5.59.2",
+    "svelte-check": "^4.7.8",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~6.0.3",
+    "vite": "^8.4.0"
   }
 }

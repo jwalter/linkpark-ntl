@@ -12,12 +12,17 @@
     { id: "bca0fcd0-5f1b-41fc-9501-f03aed7e045c", name: "Källaren" },
   ];
 
-  let available: Record<string, number> = {};
+  type ApiParking = {
+    id: string;
+    vehicleSpaces?: { available?: number };
+  };
+
+  let available = $state<Record<string, number | undefined>>({});
 
   onMount(async () => {
     try {
       const res = await fetch("/api/parkings");
-      const parkings = await res.json();
+      const parkings: ApiParking[] = await res.json();
       available = Object.fromEntries(
         parkings.map((p) => [p.id, p.vehicleSpaces?.available])
       );
