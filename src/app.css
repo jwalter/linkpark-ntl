@@ -1,1 +1,43 @@
+@import "@fontsource-variable/overpass/wght.css";
 @import "tailwindcss";
+
+/* Whole-screen layout without scrolling, see main.ts */
+@custom-variant fit (&:where(.fit, .fit *));
+
+@theme {
+  --font-sans: "Overpass Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Colors taken from Swedish parking guidance signs */
+  --color-skylt: #0f4c92;
+  --color-skylt-djup: #0a3a73;
+  --color-led: #ffc531;
+  --color-signal: #ff7a66;
+  --color-betong: #e7e9ec;
+  --color-natt: #0b1b30;
+}
+
+html.fit,
+html.fit body,
+html.fit #app {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* In fit mode, sizes scale with the screen through --u (about 1% of the
+   height, limited by the width so the three columns always fit) */
+html.fit {
+  --u: min(1vh, 0.62vw);
+}
+@media (orientation: portrait) {
+  html.fit {
+    --u: min(0.62vh, 0.95vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
